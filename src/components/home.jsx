@@ -1,23 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { API_URL, doApiMethod, } from '../services/apiService';
+import { doApiMethod, } from '../services/apiService';
 import { Line } from "react-chartjs-2";
 import {
     Chart as ChartJS,
-    CategoryScale,
-    LinearScale,
-    PointElement,
-    LineElement,
     Title,
     Tooltip,
     Legend
 } from "chart.js/auto";
 
 ChartJS.register(
-    CategoryScale,
-    LinearScale,
-    PointElement,
-    LineElement,
     Title,
     Tooltip,
     Legend
@@ -34,14 +26,13 @@ const Home = () => {
     }, []);
 
     const doApi = async (_limit) => {
-        const _dataBody = {
-            limit: _limit
-        }
-        let url = API_URL + "/crypto";
+        console.log(_limit);
+        let url = `/crypto/${_limit}`;
+        console.log(url);
         try {
-            let resp = await doApiMethod(url, "POST", _dataBody);
-                setPriceData(resp.data.price_close_Data);
-                setCloseData(resp.data.time_close_Data);
+            let resp = await doApiMethod(url, "GET");
+            setPriceData(resp.data.price_close_data);
+            setCloseData(resp.data.time_close_data);
             console.log(resp.data.price_close_Data.length);
         } catch (error) {
             console.log(error);
@@ -59,7 +50,6 @@ const Home = () => {
         setlimit("7")
         doApi("7");
     };
-
 
 
     const options = {
@@ -109,10 +99,7 @@ const Home = () => {
             </div>
 
             <div>
-                <Line
-                    options={options}
-                    data={data}
-                />
+                <Line options={options} data={data} />
             </div>
         </div>
     );

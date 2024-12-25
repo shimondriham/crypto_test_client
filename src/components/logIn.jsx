@@ -1,7 +1,7 @@
 import React from 'react';
 import { useForm } from "react-hook-form";
 import { useNavigate } from 'react-router-dom';
-import { API_URL, doApiMethod } from '../services/apiService';
+import {  doApiMethod } from '../services/apiService';
 import { saveTokenLocal } from '../services/localService';
 
 const Login = () => {
@@ -14,7 +14,7 @@ const Login = () => {
 
   const doApi = async (_dataBody) => {
     console.log(_dataBody);
-    let url = API_URL + "/users/login";
+    let url = "/users/login";
     try {
       let resp = await doApiMethod(url, "POST", _dataBody);
       console.log(resp.data);
@@ -28,14 +28,12 @@ const Login = () => {
     }
   }
 
+  
   let emailRef = register("email", {
     required: true,
     pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i
   });
-
   let passwordRef = register("password", { required: true, minLength: 4 });
-
-
 
   return (
     <div className='text-center m-2'>
